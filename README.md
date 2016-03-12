@@ -3,7 +3,7 @@ The code presents the novel approach to identify unhelpful or adversarial partic
 Note:
 * Constant features `beta` and `gamma` are the last dimension of `alpha` and `W` respectively.
 
-* Resulting probabilities [0, 1] from the model shall be mapped to [-1 1] using the simple transformation, y{0,1}'*'2 - 1 = y{-1, 1}.<br><br>
+* Resulting probabilities [0, 1] from the model shall be mapped to [-1 1] using the simple transformation, y{0,1}\times2 - 1 = y{-1,1}.<br><br>
 Folders `ErrorStatistics`, `MultiLabelerMethods` and the `DATA` were shared by Yan Yan, now a Senior Software Engineer at LinkedIn and Romer Rosales, Principal Scientist at LinkedIn.<br><br>
 Please feel free to use the code in your research and development works. We would appreciate a citation to the paper below when this code is helpful in obtaining results in your future publications.<br><br>
 **Publication for citation:**<br>
