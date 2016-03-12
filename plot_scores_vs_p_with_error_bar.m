@@ -18,15 +18,15 @@ adv_marker={'r>-' 'rp-' 'r^-' 'rs-' 'rh-' 'rd-' 'r+-' 'ro-' 'rv-' 'r<-'};
 
 % Plotting score curves for annotators and adversaries
 for i=1:adversaries(1)-1
-plot(p,mean_score(:,i),anno_marker{i})
-hold on
+    plot(p,mean_score(:,i),anno_marker{i})
+    hold on
 end
 clear i
 j=1;
 for i=adversaries
-plot(p,mean_score(:,i),adv_marker{j})
-j=j+1;
-hold on
+    plot(p,mean_score(:,i),adv_marker{j})
+    j=j+1;
+    hold on
 end
 clear i j
 errorbar(repmat(p',1,number_of_annotators),mean_score,err_bar,'kx')
@@ -72,12 +72,12 @@ bar(x,z,'r')
 grid on;
 delta=0.0178-0.001*number_of_annotators;
 if mod(number_of_annotators,2)==0
-pt_distrib=-(number_of_annotators/2)*delta:delta:(number_of_annotators/2)*delta;
-i=find(pt_distrib);
-adjust=repmat(pt_distrib(i),max(size(p)),1);
+    pt_distrib=-(number_of_annotators/2)*delta:delta:(number_of_annotators/2)*delta;
+    i=find(pt_distrib);
+    adjust=repmat(pt_distrib(i),max(size(p)),1);
 else
-pt_distrib=-floor(number_of_annotators/2)*delta:delta:floor(number_of_annotators/2)*delta;
-adjust=repmat(pt_distrib,max(size(p)),1);
+    pt_distrib=-floor(number_of_annotators/2)*delta:delta:floor(number_of_annotators/2)*delta;
+    adjust=repmat(pt_distrib,max(size(p)),1);
 end
 errorbar(x+adjust,mean_score,err_bar,'kx')
 title('Annotator score variation for various p_a')
