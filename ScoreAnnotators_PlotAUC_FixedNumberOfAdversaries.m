@@ -1,4 +1,4 @@
-clear; close; clc
+clear all; close all; clc
 
 %...setup working directories
 addpath ../MultiLabelerMethods/
