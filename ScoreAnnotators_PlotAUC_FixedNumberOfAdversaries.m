@@ -1,9 +1,15 @@
 clear all; close all; clc
 
+set(0, 'DefaultAxesFontSize', 16);
+
 %...setup working directories
 addpath ../MultiLabelerMethods/
 addpath ../ErrorStatistics/
 addpath ../DATA
+
+% Set the desired 'k' (the number of adversaries) here.
+% Number of extra annotators, adversaries, introduced
+k=1;
 
 % loading Breast Dataset
 load breastdata
@@ -11,8 +17,6 @@ Data=norm_Data.X;
 SampleSize=size(Data,1); FeatureDim=size(Data,2);
 Data=Data-ones(SampleSize,1)*mean(Data);
 Data=Data./(ones(SampleSize,1)*std(Data));
-% number of extra annotators, adversaries, introduced
-k=1;
 Anno=[norm_Data.Y' repmat(norm_Data.Y_golden',1,k)]; LabelerNo=size(Anno, 2);
 Labels=norm_Data.Y_golden';
 clear norm_Data
@@ -25,8 +29,6 @@ clear norm_Data
 % SampleSize=size(Data,1); FeatureDim=size(Data,2);
 % Data=Data-ones(SampleSize,1)*mean(Data);
 % Data=Data./(ones(SampleSize,1)*std(Data));
-% % number of extra annotators, adversaries, introduced
-% k=1;
 % Anno=[Doctor repmat(Truth,1,k)]; LabelerNo=size(Anno, 2);
 % Labels=Truth;
 % clear Sample Doctor Truth
@@ -39,8 +41,6 @@ clear norm_Data
 % SampleSize=size(Data,1); FeatureDim=size(Data,2);
 % Data=Data-ones(SampleSize,1)*mean(Data);
 % Data=Data./(ones(SampleSize,1)*std(Data));
-% % number of extra annotators, adversaries, introduced
-% k=10;
 % Anno=[MLabel repmat(originalZ,1,k)]; LabelerNo=size(Anno, 2);
 % Labels=originalZ;
 % clear X MLabel originalZ
@@ -54,8 +54,6 @@ clear norm_Data
 % SampleSize=size(Data,1); FeatureDim=size(Data,2);
 % Data=Data-ones(SampleSize,1)*mean(Data);
 % Data=Data./(ones(SampleSize,1)*std(Data));
-% % number of extra annotators, adversaries, introduced
-% k=9;
 % Anno=[Doctor repmat(Truth,1,k)]; LabelerNo=size(Anno, 2);
 % Labels=Truth;
 % clear Sample Doctor Truth
@@ -68,8 +66,6 @@ clear norm_Data
 % SampleSize=size(Data,1); FeatureDim=size(Data,2);
 % Data=Data-ones(SampleSize,1)*mean(Data);
 % Data=Data./(ones(SampleSize,1)*std(Data));
-% % number of extra annotators, adversaries, introduced
-% k=3;
 % Anno=[[d{1} d{2} d{3} d{4} d{5}] repmat(gold_d,1,k)]; LabelerNo=size(Anno, 2);
 % Labels=gold_d;
 % clear A d gold_d
@@ -190,29 +186,10 @@ end
 plot_scores_vs_p_with_error_bar(mean_score1,error_bar_for_score1,(LabelerNo-k+1):LabelerNo,p)
 
 figure
-plot(p,auc,'k+')
+plot(p,auc,'k+','LineWidth',10)
 hold on
-plot(p,auc,'r')  %plot the area under the roc curve
-title('Performance of the model [Housing dataset; binomial case with random initialization, 5 annotators + 3 adversaries; adversarial noise added to ground truth]')
-xlabel('Amount of adversarial noise');
-ylabel('Area under the ROC curve');
+plot(p,auc,'r','LineWidth',2)  %plot the area under the roc curve
+title('Performance of the Model when Adversarial Noise Added to Ground Truth','FontSize',25,'FontWeight','bold')
+xlabel('Amount of Adversarial Noise','FontSize',25,'FontWeight','bold');
+ylabel('Area under the ROC curve','FontSize',25,'FontWeight','bold');
 axis([0 1 0 1])
-
-%p_ann_g=adversarial(Pz_x_g,Py_xzbar_g,Py_xz_g); %gaussian case, no adversaries
-
-% [p_ann_b,score]=adversarial(Pz_x_b,Py_xzbar_b,Py_xz_b); %binomial case, default initialization
-% [p_ann_b_rnd,score_rnd]=adversarial(Pz_x_b_rnd,Py_xzbar_b_rnd,Py_xz_b_rnd); %binomial case, random initialization
-
-%% code segment to plot the Area under the ROC curves for estabilishing Model Performance
-% variable 'auc' has its rows corresponding to each case; each case has fixed # of adversarial annotators
-% figure
-% anno_marker={'k+' 'bd' 'go' 'c*' 'mv' 'y+'};
-% for i=1:3
-% plot(p,auc(i,:),anno_marker{i})
-% hold on
-% plot(p,auc(i,:),'r')  %plot the area under the roc curve
-% title('Performance of the model [Glass dataset; binomial case with random initialization, 5 annotators + 10 adversaries; adversarial noise added to ground truth]')
-% xlabel('Amount of adversarial noise');
-% ylabel('Area under the ROC curve');
-% axis([0 1 0 1])
-% end

@@ -1,5 +1,7 @@
 clear all; close all; clc
 
+set(0, 'DefaultAxesFontSize', 16);
+
 %...setup working directories
 addpath ../MultiLabelerMethods/
 addpath ../ErrorStatistics/
@@ -108,7 +110,6 @@ for auc_diff_advs_run=1:max(size(k))
                     TrainAnno=Anno(setdiff((1:1:SampleSize),((Ptr-1)*Portion+1:1:SampleSize)),:);
                 end
                 
-                
                 % code for flipping labels
                 %jth annotator is an adversary
                 for adv=(LabelerNo-k(auc_diff_advs_run)+1):LabelerNo
@@ -119,7 +120,6 @@ for auc_diff_advs_run=1:max(size(k))
                         end
                     end
                 end
-                
                 
                 %...choose gaussian
                 [alpha_g, W_g, PtildZ_g, Pz_x_g, maxLogScr_g, Py_xz_g, Py_xzbar_g]=MLLabeler(TrainData, TrainAnno, 1); %...initialize by default
@@ -173,8 +173,6 @@ for auc_diff_advs_run=1:max(size(k))
             
             [~, detAxeGau]=rocPlot(Labels, ProbLabelGau, 0, 0, 1);
             [faAxe, detAxeBino]=rocPlot(Labels, ProbLabelBino, 0, 0, 1);
-            % figure(1), plot(faAxe,detAxeGau, '-r'), grid on, hold on;
-            % figure(1), plot(faAxe,detAxeBino, '--b'); % these plots are commented out. AUCs look inverted. Is that OK?
             
             %mean score vs flip prob. with std. error bars for each annotator
             mean_score1(flip_noise_level,:)=mean(score1_across_folds,1);
@@ -185,8 +183,7 @@ for auc_diff_advs_run=1:max(size(k))
         end
         %plot mean score vs flip prob. with std. error bars for each annotator
         %see function definition for understanding the input arguments to the function
-        %figure(auc_fixed_num_advs_run+(auc_diff_advs_run-1)*5) %this 5 is the max value of auc_fixed_num_advs_run
-        figure
+        figure;
         plot_scores_vs_p_with_error_bar(mean_score1,error_bar_for_score1,(LabelerNo-k(auc_diff_advs_run)+1):LabelerNo,p)
         auc_all_fixed_num_advs(auc_fixed_num_advs_run,:)=auc_vs_p;
     end
@@ -201,17 +198,20 @@ end
 figure
 auc_anno_marker={'r+-' 'gd-' 'bo-' 'c*-' 'mv-' 'y+-'};
 for auc_diff_advs_run=1:max(size(k))
-    plot(p,auc(auc_diff_advs_run,:),auc_anno_marker{auc_diff_advs_run}) % is ',:' required in the auc's argument?
-    hold on % can it be moved above?
+    % is ',:' required in the auc's argument?
+    plot(p,auc(auc_diff_advs_run,:),auc_anno_marker{auc_diff_advs_run})
+    % can it be moved above?
+    hold on
 end
 for auc_diff_advs_run=1:max(size(k))
-    errorbar(p,auc(auc_diff_advs_run,:),error_bar_for_auc(auc_diff_advs_run,:),'kx')%plot the area under the roc curve
+    %plot the area under the roc curve
+    errorbar(p,auc(auc_diff_advs_run,:),error_bar_for_auc(auc_diff_advs_run,:),'kx')
     hold on
 end
 title('AUC variation with respect to number of adversarial annotators and p_a')
 xlabel('Adversary p_a - flip probability');
 ylabel('AUC');
-%legend('1 adversary','3 adversaries','9 adversaries');
+legend('1 adversary','3 adversaries');
 axis([0 1 0 1])
 grid on
 figureHandle = gcf;
