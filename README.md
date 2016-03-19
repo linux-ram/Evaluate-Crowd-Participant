@@ -1,4 +1,5 @@
 # Evaluate-Crowd-Participant
+##Evaluating Crowd-sourcing Participants in the Absence of Ground-Truth<br>
 The code presents the novel approach to identify unhelpful or adversarial participants in a crowdsourcing setting where multiple labelers are available. Further, the code demonstrates the robustness of the perfected scoring scheme to evaluate the participants.<br><br>
 **Note:**<br>
 (a) Constant features `beta` and `gamma` are the last dimension of `alpha` and `W` respectively.<br>
