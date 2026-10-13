@@ -1,0 +1,6 @@
+# Dependency lock for reproducible runs.
+# No third-party MATLAB toolboxes and no package manager.
+# Runtime: base MATLAB, any release.
+# Datasets under DATA/ are part of the repository, not downloaded at runtime.
+#
+# Locked scoring entry point: adversarial.m (equation 19 of the NIPS 2012 workshop paper).
